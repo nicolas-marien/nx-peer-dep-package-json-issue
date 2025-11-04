@@ -5,6 +5,35 @@
   "nx": {
     "name": "backend",
     "targets": {
+      "esbuild-build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/backend/dist",
+          "format": [
+            "cjs"
+          ],
+          "bundle": true,
+          "main": "apps/backend/src/main.ts",
+          "tsConfig": "apps/backend/tsconfig.app.json",
+          "sourceMap": true,
+          "esbuildConfig": "apps/backend/esbuild.config.js"
+        },
+        "configurations": {
+          "production": {
+            "optimization": true,
+            "extractLicenses": true,
+            "inspect": false,
+            "fileReplacements": []
+          }
+        }
+      },
       "build": {
         "executor": "nx:run-commands",
         "options": {
@@ -23,9 +52,6 @@
         }
       },
       "prune-lockfile": {
-        "dependsOn": [
-          "build"
-        ],
         "cache": true,
         "executor": "@nx/js:prune-lockfile",
         "outputs": [
@@ -37,9 +63,6 @@
         }
       },
       "copy-workspace-modules": {
-        "dependsOn": [
-          "build"
-        ],
         "cache": true,
         "outputs": [
           "{workspaceRoot}/apps/backend/dist/workspace_modules"
@@ -81,10 +104,12 @@
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
-    "@nestjs/platform-express": "^11.0.0",
-    "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@anatine/esbuild-decorators": "0.2.19",
+    "@nx-eslint-dep-check-peer/buildable-logger": "0.0.1",
+    "@nx/webpack": "22.0.2",
+    "jsonc-eslint-parser": "2.4.1",
+    "nestjs-pino": "4.4.1"
   },
   "devDependencies": {
     "@nestjs/testing": "^11.0.0"

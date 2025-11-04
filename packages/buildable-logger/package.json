@@ -1,0 +1,42 @@
+{
+  "name": "@nx-eslint-dep-check-peer/buildable-logger",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@nx-eslint-dep-check-peer/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "name": "buildable-logger",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:tsc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "dist/packages/buildable-logger",
+          "tsConfig": "packages/buildable-logger/tsconfig.lib.json",
+          "packageJson": "packages/buildable-logger/package.json",
+          "main": "packages/buildable-logger/src/index.ts",
+          "assets": [
+            "packages/buildable-logger/*.md"
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "11.0.0",
+    "nestjs-pino": "4.4.1",
+    "tslib": "^2.3.0"
+  }
+}
